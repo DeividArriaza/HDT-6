@@ -1,17 +1,18 @@
 //Clase para guardar datos de un pokemon
 public class Pokemon{
     private String name;
-    private int pokemonNum;
+    private String pokemonNum;
     private String type1;
     private String type2; 
-    private String[] classification;
-    private float height;
-    private float weight;
-    private int generation;
+    private String classification;
+    private String height;
+    private String weight;
+    private String[] abilities;
+    private String generation;
     private String legendaryStatus;
 
     //Constructor
-    public Pokemon(String name, int pokemonNum, String type1, String type2, String classification, float height, float weight, int generation, String legendaryStatus){
+    public Pokemon(String name, String pokemonNum, String type1, String type2, String classification, String height, String weight, String[] abilities, String generation, String legendaryStatus){
         this.name = name;
         this.pokemonNum = pokemonNum;
         this.type1 = type1;
@@ -19,7 +20,9 @@ public class Pokemon{
         this.classification = classification;
         this.height = height;
         this.weight = weight;
-        this.generation = legendaryStatus;
+        this.abilities = abilities;
+        this.generation = generation;
+        this.legendaryStatus = legendaryStatus;
     }
 
     //Getters
@@ -27,7 +30,7 @@ public class Pokemon{
         return name;
     }
 
-    public int getPokemonNum(){
+    public String getPokemonNum(){
         return pokemonNum;
     }
 
@@ -43,19 +46,29 @@ public class Pokemon{
         return classification;
     }
 
-    public float getHeight(){
+    public String getHeight(){
         return height;
     }
 
-    public float getWeight(){
+    public String getWeight(){
         return weight;
     }
 
-    public int getGeneration(){
+    public String getGeneration(){
         return generation;
     }
 
     public String getLegendaryStatus(){
         return legendaryStatus;
+    }
+
+    public String[] getAbilities(){
+        return abilities;
+    }
+
+    @Override
+    public String toString(){
+        //Escribir todos los datos del pokemón
+        return "";
     }
 }

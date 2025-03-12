@@ -4,5 +4,5 @@ import java.util.TreeMap;
 import java.util.LinkedHashMap;
 
 public interface MapFactory{
-    Map<String, Pokemon> createMap();
+    Map<String, Pokemon> createMap(int option);
 }
