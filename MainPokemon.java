@@ -3,12 +3,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class MainPokemon {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         MapFactory factory = new ChoiceMap();
-        int finalizar  = 0;
+        int end  = 0;
         String line;
 
         System.out.println("1. HashMap");
@@ -17,7 +18,7 @@ public class MainPokemon {
         System.out.println("Ingrese el número de la opción con la que desea almacenar los datos: ");
         int option = input.nextInt();
         Map<String, Pokemon> pokemonDataSheet = factory.createMap(option);
-
+        TreeMap<String, Pokemon> userPokedex = new TreeMap<>(); 
         try (BufferedReader br = new BufferedReader(new FileReader("pokemon_data_pokeapi.csv"))) {
             br.readLine(); 
             //Se lee fila por fila, separándose por comas los datos
@@ -44,7 +45,7 @@ public class MainPokemon {
         }
 
         //Menú
-        while(finalizar==0){
+        while(end==0){
             System.out.println("Menú de opciones para su pokemón");
             System.out.println("1. Agregar pokemón a tu colección");
             System.out.println("2. Ver datos de un pokemón en general");
@@ -55,14 +56,23 @@ public class MainPokemon {
             System.out.println("Ingresar el número de la opción que desea realizar: ");
             option = input.nextInt();
 
-            switch(option){
-                case 1:
-                case 2: 
-                case 3:
-                case 4: 
-                case 5:
-                case 6: 
+            if(option==1){
+                System.out.println("Ingrese el nombre del pokemon que desea agregar: ");
+                String pokeName = input.nextLine();
+                pokeName = input.nextLine();
+                if(!(userPokedex.containsKey(pokeName)) && pokemonDataSheet.containsKey(pokeName)){
+                    userPokedex.put(pokeName, pokemonDataSheet.get(pokeName));
+                    System.out.println(userPokedex.get(pokeName).getName());
+                }
+                else{
+                    System.out.println("No se pudo agregar el pokemón");
+                }
             }
+                
+            if(option==6){
+                end  = 1;
+            }
+                    
         }
 
     }
