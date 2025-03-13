@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.Arrays;
 
 public class MainPokemon {
     public static void main(String[] args) {
@@ -11,11 +12,12 @@ public class MainPokemon {
         MapFactory factory = new ChoiceMap();
         int end  = 0;
         String line;
+        String pokeName; 
 
         System.out.println("1. HashMap");
         System.out.println("2. TreeMap");
         System.out.println("3. LinkedHashMap");
-        System.out.println("Ingrese el número de la opción con la que desea almacenar los datos: ");
+        System.out.print("Ingrese el número de la opción con la que desea almacenar los datos: ");
         int option = input.nextInt();
         Map<String, Pokemon> pokemonDataSheet = factory.createMap(option);
         TreeMap<String, Pokemon> userPokedex = new TreeMap<>(); 
@@ -23,19 +25,49 @@ public class MainPokemon {
             br.readLine(); 
             //Se lee fila por fila, separándose por comas los datos
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] data;
+                String name;
+                String pokemonNum;
+                String type1;
+                String type2;
+                String classification;
+                String height;
+                String weight;
+                String[] abilities;
+                String generation;
+                String legendaryStatus;
 
-                //Almacenamiento da datos
-                String name = data[0].trim();
-                String pokemonNum = data[1].trim();
-                String type1 = data[2].trim();
-                String type2 = data[3].trim();
-                String classification = data[4];
-                String height = data[5];
-                String weight = data[6];
-                String[] abilities = data[7].split(",");
-                String generation = data[8];
-                String legendaryStatus = data[9];
+                if(line.indexOf( "\"") > 0){ //almacenamiento de datos para pokemones con varias habilidades
+                    int first = line.indexOf("\"");
+                    int last = line.indexOf("\"", first +1);
+                    abilities = line.substring(first+1, last).split(",");
+                    line = line.substring(0,first) + line.substring(last+2);
+                    System.out.println(line);
+                    data = line.split(",");
+                    name = data[0].trim();
+                    pokemonNum = data[1].trim();
+                    type1 = data[2].trim();
+                    type2 = data[3].trim();
+                    classification = data[4];
+                    height = data[5];
+                    weight = data[6];
+                    generation = data[7];
+                    legendaryStatus = data[8];
+                }
+                else{ //almacenamiento de datos para pokemones con una sola habilidad
+                    data = line.split(",");
+                    name = data[0].trim();
+                    pokemonNum = data[1].trim();
+                    type1 = data[2].trim();
+                    type2 = data[3].trim();
+                    classification = data[4];
+                    height = data[5];
+                    weight = data[6];
+                    abilities = data[7].split(",");
+                    generation = data[8];
+                    legendaryStatus = data[9];
+                }
+
                 Pokemon pokemon = new Pokemon(name, pokemonNum, type1, type2, classification, height, weight, abilities, generation, legendaryStatus);
                 //Guardar en Map
                 pokemonDataSheet.put(name, pokemon);
@@ -53,25 +85,38 @@ public class MainPokemon {
             System.out.println("4. Mostrar nombre y tipo 1 de todos los pokemones existentes");
             System.out.println("5. Mostrar pokemones según la habilidad indicada");
             System.out.println("6. Salir");
-            System.out.println("Ingresar el número de la opción que desea realizar: ");
+            System.out.print("Ingresar el número de la opción que desea realizar: ");
             option = input.nextInt();
 
             if(option==1){
-                System.out.println("Ingrese el nombre del pokemon que desea agregar: ");
-                String pokeName = input.nextLine();
+                System.out.print("Ingrese el nombre del pokemon que desea agregar: ");
+                pokeName = input.nextLine();
                 pokeName = input.nextLine();
                 if(!(userPokedex.containsKey(pokeName)) && pokemonDataSheet.containsKey(pokeName)){
                     userPokedex.put(pokeName, pokemonDataSheet.get(pokeName));
-                    System.out.println(userPokedex.get(pokeName).getName());
                 }
                 else{
                     System.out.println("No se pudo agregar el pokemón");
                 }
             }
-                
+            
+            if(option==2){
+                System.out.print("Ingrese el nombre del pokemon que desea buscar: ");
+                pokeName = input.nextLine();
+                pokeName = input.nextLine();
+                if(pokemonDataSheet.containsKey(pokeName)){
+                    System.out.println();
+                    System.out.println(pokemonDataSheet.get(pokeName).toString());
+                }
+                else{
+                    System.out.println("Este pokemón no se encuentra");
+                }
+            }
+            
             if(option==6){
                 end  = 1;
             }
+            System.out.println();
                     
         }
 

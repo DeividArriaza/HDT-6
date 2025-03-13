@@ -1,3 +1,4 @@
+import java.util.Arrays;
 //Clase para guardar datos de un pokemon
 public class Pokemon{
     private String name;
@@ -69,6 +70,6 @@ public class Pokemon{
     @Override
     public String toString(){
         //Escribir todos los datos del pokemón
-        return "";
+        return "El nombre del pokemón: " + name +"\nNúmero del pokemón: "+pokemonNum+"\nEl tipo 1 del pokemón: "+type1+"\nEl tipo 2 del pokemón: "+type2+"\nClasificación del pokemón: " + classification+ "\nAltura: " + height + "\nPeso:" + weight + "\nHabilidades: " + Arrays.toString(abilities) + "\nGeneración: " + generation + "\nEs legendario: " + legendaryStatus;
     }
 }
