@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainPokemon {
     public static void main(String[] args) {
@@ -13,6 +14,8 @@ public class MainPokemon {
         int end  = 0;
         String line;
         String pokeName; 
+        List<String> sortedType1;
+        List<String> pokemonsByAbility;
 
         System.out.println("1. HashMap");
         System.out.println("2. TreeMap");
@@ -42,7 +45,6 @@ public class MainPokemon {
                     int last = line.indexOf("\"", first +1);
                     abilities = line.substring(first+1, last).split(",");
                     line = line.substring(0,first) + line.substring(last+2);
-                    System.out.println(line);
                     data = line.split(",");
                     name = data[0].trim();
                     pokemonNum = data[1].trim();
@@ -76,6 +78,8 @@ public class MainPokemon {
             System.out.println("Error al leer el archivo CSV");
         }
 
+        PokemonManager manager = new PokemonManager(pokemonDataSheet);
+        
         //Menú
         while(end==0){
             System.out.println("Menú de opciones para su pokemón");
@@ -87,16 +91,17 @@ public class MainPokemon {
             System.out.println("6. Salir");
             System.out.print("Ingresar el número de la opción que desea realizar: ");
             option = input.nextInt();
+            System.out.println();
 
             if(option==1){
                 System.out.print("Ingrese el nombre del pokemon que desea agregar: ");
                 pokeName = input.nextLine();
                 pokeName = input.nextLine();
-                if(!(userPokedex.containsKey(pokeName)) && pokemonDataSheet.containsKey(pokeName)){
-                    userPokedex.put(pokeName, pokemonDataSheet.get(pokeName));
+                if(manager.addPokemon(pokeName)){
+                    System.out.println("Pokemón agregado con éxito");
                 }
                 else{
-                    System.out.println("No se pudo agregar el pokemón");
+                    System.out.println("Pokemón no agregado.");
                 }
             }
             
@@ -104,18 +109,43 @@ public class MainPokemon {
                 System.out.print("Ingrese el nombre del pokemon que desea buscar: ");
                 pokeName = input.nextLine();
                 pokeName = input.nextLine();
-                if(pokemonDataSheet.containsKey(pokeName)){
-                    System.out.println();
-                    System.out.println(pokemonDataSheet.get(pokeName).toString());
-                }
-                else{
-                    System.out.println("Este pokemón no se encuentra");
-                }
+                System.out.println();
+                System.out.println(manager.getPokemon(pokeName).toString());
             }
             
+            if (option == 3) {
+                sortedType1 = manager.sortUserPokemons();
+                System.out.println("Pokemones de tu colección ordenados por tipo 1: ");
+                System.out.println();
+                for(int i=0; i<sortedType1.size(); i++){
+                    System.out.println(pokemonDataSheet.get(sortedType1.get(i)).getName() + ": " + pokemonDataSheet.get(sortedType1.get(i)).getType1());
+                } 
+            }
+            
+            if (option == 4) {
+                sortedType1 = manager.sortAllPokemons();
+                System.out.println("Todos los pokemones ordenados por tipo 1: ");
+                System.out.println();
+                for(int i=0; i<sortedType1.size(); i++){
+                    System.out.println(pokemonDataSheet.get(sortedType1.get(i)).getName() + ": " + pokemonDataSheet.get(sortedType1.get(i)).getType1());
+                } 
+            }
+
+            if (option == 5) {
+                System.out.print("Ingrese la habilidad que desea buscar en los pokemones: ");
+                String search = input.nextLine(); 
+                search = input.nextLine().trim();
+                pokemonsByAbility = manager.searchByAbility(search);
+                System.out.println("\nPokémon con la habilidad \"" + search + "\":");
+                for(int i=0; i<pokemonsByAbility.size(); i++){
+                    System.out.println(" - "+pokemonDataSheet.get(pokemonsByAbility.get(i)).getName());
+                }
+            }
+
             if(option==6){
                 end  = 1;
             }
+
             System.out.println();
                     
         }
