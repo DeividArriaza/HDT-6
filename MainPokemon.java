@@ -3,8 +3,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainPokemon {
@@ -23,7 +21,7 @@ public class MainPokemon {
         System.out.print("Ingrese el número de la opción con la que desea almacenar los datos: ");
         int option = input.nextInt();
         Map<String, Pokemon> pokemonDataSheet = factory.createMap(option);
-        TreeMap<String, Pokemon> userPokedex = new TreeMap<>(); 
+
         try (BufferedReader br = new BufferedReader(new FileReader("pokemon_data_pokeapi.csv"))) {
             br.readLine(); 
             //Se lee fila por fila, separándose por comas los datos
